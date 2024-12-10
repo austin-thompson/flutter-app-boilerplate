@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:shop_app/main.dart';
+import 'package:shop_app/screens/login_screen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('LoginScreen renders correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: LoginScreen()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Ensure widgets are present
+    expect(find.byKey(Key('usernameField')), findsOneWidget);
+    expect(find.byKey(Key('passwordField')), findsOneWidget);
+    expect(find.byKey(Key('loginButton')), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+  testWidgets('Login button triggers login logic', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: LoginScreen()));
+
+    // Enter username and password
+    await tester.enterText(find.byKey(Key('usernameField')), 'test');
+    await tester.enterText(find.byKey(Key('passwordField')), 'test');
+
+    // Tap the login button
+    await tester.tap(find.byKey(Key('loginButton')));
+    await tester.pumpAndSettle();
+
+    // Check if navigation occurred
+    expect(find.text('Home Page'),
+        findsOneWidget); // Replace this with the appropriate assertion
+  });
+
+  testWidgets('Invalid login shows error message', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: LoginScreen()));
+
+    // Enter invalid username and password
+    await tester.enterText(find.byKey(Key('usernameField')), 'wrong');
+    await tester.enterText(find.byKey(Key('passwordField')), 'wrong');
+
+    // Tap the login button
+    await tester.tap(find.byKey(Key('loginButton')));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check for error message
+    expect(find.text('Invalid username or password.'), findsOneWidget);
   });
 }
