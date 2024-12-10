@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/water_delivery_system.iml" filepath="$PROJECT_DIR$/water_delivery_system.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/water_delivery_system_android.iml" filepath="$PROJECT_DIR$/android/water_delivery_system_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shop_app.iml" filepath="$PROJECT_DIR$/shop_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/shop_app_android.iml" filepath="$PROJECT_DIR$/android/shop_app_android.iml" />
     </modules>
   </component>
 </project>
