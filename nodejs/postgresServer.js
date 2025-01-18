@@ -18,6 +18,34 @@ const pool = new Pool({
 app.use(cors());
 app.use(bodyParser.json());
 
+// Route to register a new user
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).send({ success: false, message: 'Username and password are required' });
+    }
+
+    try {
+        // Check if the username already exists
+        const checkQuery = 'SELECT COUNT(*) FROM users WHERE username = $1';
+        const checkResult = await pool.query(checkQuery, [username]);
+
+        if (checkResult.rows[0].count > 0) {
+            return res.status(409).send({ success: false, message: 'Username already exists' });
+        }
+
+        // Insert the new user into the database
+        const insertQuery = 'INSERT INTO users (username, password) VALUES ($1, $2)';
+        await pool.query(insertQuery, [username, password]);
+
+        res.status(201).send({ success: true, message: 'User registered successfully' });
+    } catch (err) {
+        console.error('Error querying the database', err);
+        res.status(500).send({ success: false, message: 'Server error' });
+    }
+});
+
 // Route to verify login
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;

@@ -1,6 +1,6 @@
 -- Create the Users table
 CREATE TABLE Users (
-    UserId INT PRIMARY KEY,
+    UserId SERIAL PRIMARY KEY,
     Username VARCHAR(32) NOT NULL,
     Password VARCHAR(32) NOT NULL
 );

@@ -55,6 +55,45 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<void> _handleRegister() async {
+    String username = usernameController.text;
+    String password = passwordController.text;
+
+    final url = Uri.parse('http://localhost:3000/register');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'username': username, 'password': password}),
+      );
+
+      final responseData = json.decode(response.body);
+
+      if (response.statusCode == 201 && responseData['success']) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration successful! Please log in.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(responseData['message'] ?? 'Registration failed'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error connecting to server.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
               key: Key('loginButton'),
               onPressed: _handleLogin,
               child: Text('Login'),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              key: Key('registerButton'),
+              onPressed: _handleRegister,
+              child: Text('Register'),
             ),
           ],
         ),
