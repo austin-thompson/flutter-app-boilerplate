@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
   // Username of the logged-in user, passed from the login screen.
   final String username;
 
-  HomeScreen({required this.username});
+  const HomeScreen({super.key, required this.username});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

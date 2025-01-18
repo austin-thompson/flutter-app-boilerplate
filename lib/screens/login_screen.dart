@@ -1,33 +1,54 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final String correctUsername = 'test';
-  final String correctPassword = 'test';
-
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
   bool _isPasswordHidden = true;
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     String username = usernameController.text;
     String password = passwordController.text;
 
-    if (username == correctUsername && password == correctPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen(username: username)),
+    final url = Uri.parse('http://localhost:3000/login');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'username': username, 'password': password}),
       );
-    } else {
+
+      final responseData = json.decode(response.body);
+
+      if (response.statusCode == 200 && responseData['success']) {
+        // Navigate to HomeScreen if login is successful
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(username: username)),
+        );
+      } else {
+        // Show an error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(responseData['message'] ?? 'Login failed'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Invalid username or password.'),
+          content: Text('Error connecting to server.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -44,13 +65,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              key: Key('usernameField'), // Unique key for testing
+              key: Key('usernameField'),
               controller: usernameController,
               decoration: InputDecoration(labelText: 'Username'),
               autofocus: true,
             ),
             TextField(
-              key: Key('passwordField'), // Unique key for testing
+              key: Key('passwordField'),
               controller: passwordController,
               obscureText: _isPasswordHidden,
               decoration: InputDecoration(
@@ -69,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              key: Key('loginButton'), // Unique key for testing
+              key: Key('loginButton'),
               onPressed: _handleLogin,
               child: Text('Login'),
             ),
