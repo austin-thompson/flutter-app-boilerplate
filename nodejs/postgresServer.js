@@ -11,7 +11,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
-    password: '89393989',
+    password: '89393989', // Replace with your actual database password
     port: 5432,
 });
 
@@ -35,7 +35,7 @@ app.post('/register', async (req, res) => {
             return res.status(409).send({ success: false, message: 'Username already exists' });
         }
 
-        // Insert the new user into the database
+        // Insert the new user into the database (password will be hashed by the database trigger)
         const insertQuery = 'INSERT INTO users (username, password) VALUES ($1, $2)';
         await pool.query(insertQuery, [username, password]);
 
@@ -51,14 +51,15 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        // Fetch the user details and compare using the `crypt` function
         const query = `
-        SELECT COUNT(*)
-        FROM users
-        WHERE username = $1 AND password = $2;
+            SELECT 1
+            FROM users
+            WHERE username = $1 AND password = crypt($2, password)
         `;
         const result = await pool.query(query, [username, password]);
 
-        if (result.rows[0].count > 0) {
+        if (result.rows.length > 0) {
             res.status(200).send({ success: true, message: 'Login successful' });
         } else {
             res.status(401).send({ success: false, message: 'Invalid credentials' });
@@ -69,6 +70,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

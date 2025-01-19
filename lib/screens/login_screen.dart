@@ -16,8 +16,18 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordHidden = true;
 
   Future<void> _handleLogin() async {
-    String username = usernameController.text;
-    String password = passwordController.text;
+    String username = usernameController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Username and password cannot be empty.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     final url = Uri.parse('http://localhost:3000/login');
     try {
@@ -40,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Show an error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(responseData['message'] ?? 'Login failed'),
+            content: Text(responseData['message'] ?? 'Invalid credentials'),
             backgroundColor: Colors.red,
           ),
         );
@@ -56,8 +66,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleRegister() async {
-    String username = usernameController.text;
-    String password = passwordController.text;
+    String username = usernameController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Username and password cannot be empty.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     final url = Uri.parse('http://localhost:3000/register');
     try {
@@ -97,20 +117,20 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
-              key: Key('usernameField'),
+              key: const Key('usernameField'),
               controller: usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
               autofocus: true,
             ),
             TextField(
-              key: Key('passwordField'),
+              key: const Key('passwordField'),
               controller: passwordController,
               obscureText: _isPasswordHidden,
               decoration: InputDecoration(
@@ -127,17 +147,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              key: Key('loginButton'),
+              key: const Key('loginButton'),
               onPressed: _handleLogin,
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
-              key: Key('registerButton'),
+              key: const Key('registerButton'),
               onPressed: _handleRegister,
-              child: Text('Register'),
+              child: const Text('Register'),
             ),
           ],
         ),
