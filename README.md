@@ -76,8 +76,10 @@ project-root
 |       |-- login_screen.dart     # Login and registration screen
 |       |-- home_screen.dart      # Home screen with bottom navigation
 |
-|-- server.js                     # Express server for user authentication
-|-- database.sql                  # PostgreSQL schema and setup script
+|-- nodejs
+|       |-- postgresServer.js     # Express server for user authentication
+|-- db
+|       |-- setup_db.sql          # PostgreSQL schema and setup script
 ```
 
 ## Usage
