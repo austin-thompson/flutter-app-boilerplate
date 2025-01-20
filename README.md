@@ -25,10 +25,10 @@ This project demonstrates a simple Flutter application with user authentication 
 
 ## Requirements
 
-- Flutter SDK
-- Dart SDK
-- Node.js and npm
-- PostgreSQL
+- [Flutter SDK](https://docs.flutter.dev/get-started/install)
+- [Dart SDK](https://dart.dev/get-dart)
+- [Node.js and npm](https://nodejs.org/en/download)
+- [PostgreSQL](https://www.postgresql.org/download)
 
 ## Setup Instructions
 
