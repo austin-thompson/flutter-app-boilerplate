@@ -60,7 +60,7 @@ This project demonstrates a simple Flutter application with user authentication 
 ### Database Setup
 
 1. Open a PostgreSQL client (e.g., psql) and connect to your database.
-2. Run the provided SQL script in the 'db/' directory to enable 'pgcrpyto', also well as create the required tables, triggers, and sample data.
+2. Run the provided SQL script in the 'db/' directory to enable 'pgcrpyto', as well as create the required tables, triggers, and sample data.
    ```sql
    -- Execute the SQL script provided in `setup_db.sql` within 'db/' directory
    ```
