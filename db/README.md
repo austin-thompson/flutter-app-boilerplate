@@ -1,6 +1,10 @@
 # PostgreSQL Database Setup and User Management
 
-This script sets up the PostgreSQL database schema for managing users with enhanced security features such as password hashing. It creates two main tables: `Users` for storing user credentials and `UserInformation` for additional user details. Additionally, triggers are implemented to automatically hash passwords and insert default user information when new users are added.
+This script sets up the PostgreSQL database schema for managing users with enhanced security features such as password hashing.
+It creates two main tables:
+
+- `Users` for storing user credentials
+- `UserInformation` for additional user details.
 
 This project uses the **latest version of PostgreSQL** for its database setup, and the provided SQL script is compatible with the most recent releases.
 
@@ -21,7 +25,7 @@ Before proceeding with the setup, ensure that the **latest version of PostgreSQL
 
 ### Simple Setup with `setup_db.sql`
 
-If you prefer a quicker setup, you can run the provided `setup_db.sql` script. It includes all necessary commands to configure your database, create tables, functions, and triggers, and insert sample data.
+If you prefer a quicker setup, you can run the provided `setup_db.sql` script. It includes all necessary commands to configure your database.
 
 1. **Download or Copy `setup_db.sql`**: The `setup_db.sql` file is located in the `db/` subdirectory of the project.
 

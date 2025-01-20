@@ -91,11 +91,7 @@ project-root
    Launch the Flutter application from within the root directory on a connected device or emulator.
 
 3. **Login/Register**:
-   Use the app to register a new account or log in with existing credentials. Test accounts included in the database after running 'setup_db.sql':
-
-   - Username: `admin`, Password: `admin`
-   - Username: `john_doe`, Password: `password123`
-   - Username: `jane_doe`, Password: `qwerty456`
+   Use the app to register a new account and then attempt to log in with said account.
 
 4. **Navigate**:
    After logging in, navigate between Home, Search, and Profile tabs using the bottom navigation bar.
