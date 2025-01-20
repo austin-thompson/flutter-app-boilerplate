@@ -25,10 +25,10 @@ This project demonstrates a simple Flutter application with user authentication 
 
 ## Requirements
 
-- Flutter SDK
-- Dart SDK
-- Node.js and npm
-- PostgreSQL
+- [Flutter SDK](https://docs.flutter.dev/get-started/install)
+- [Dart SDK](https://dart.dev/get-dart)
+- [Node.js and npm](https://nodejs.org/en/download)
+- [PostgreSQL](https://www.postgresql.org/download)
 
 ## Setup Instructions
 
@@ -60,13 +60,9 @@ This project demonstrates a simple Flutter application with user authentication 
 ### Database Setup
 
 1. Open a PostgreSQL client (e.g., psql) and connect to your database.
-2. Enable the `pgcrypto` extension for cryptographic functions:
+2. Run the provided SQL script in the 'db/' directory to enable 'pgcrpyto', as well as create the required tables, triggers, and sample data.
    ```sql
-   CREATE EXTENSION IF NOT EXISTS pgcrypto;
-   ```
-3. Run the provided SQL script to create the required tables, triggers, and sample data.
-   ```sql
-   -- Execute the SQL script provided in `database.sql`
+   -- Execute the SQL script provided in `setup_db.sql` within 'db/' directory
    ```
 
 ## File Structure
@@ -80,20 +76,22 @@ project-root
 |       |-- login_screen.dart     # Login and registration screen
 |       |-- home_screen.dart      # Home screen with bottom navigation
 |
-|-- server.js                     # Express server for user authentication
-|-- database.sql                  # PostgreSQL schema and setup script
+|-- nodejs
+|       |-- postgresServer.js     # Express server for user authentication
+|-- db
+|       |-- setup_db.sql          # PostgreSQL schema and setup script
 ```
 
 ## Usage
 
 1. **Run the Backend**:
-   Start the backend server to handle API requests for login and registration.
+   Start the backend server from within the 'nodejs' directory to handle API requests for login and registration.
 
 2. **Run the Frontend**:
-   Launch the Flutter application on a connected device or emulator.
+   Launch the Flutter application from within the root directory on a connected device or emulator.
 
 3. **Login/Register**:
-   Use the app to register a new account or log in with existing credentials. Test accounts included in the database:
+   Use the app to register a new account or log in with existing credentials. Test accounts included in the database after running 'setup_db.sql':
 
    - Username: `admin`, Password: `admin`
    - Username: `john_doe`, Password: `password123`
