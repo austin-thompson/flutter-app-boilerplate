@@ -60,13 +60,9 @@ This project demonstrates a simple Flutter application with user authentication 
 ### Database Setup
 
 1. Open a PostgreSQL client (e.g., psql) and connect to your database.
-2. Enable the `pgcrypto` extension for cryptographic functions:
+2. Run the provided SQL script in the 'db/' directory to enable 'pgcrpyto', also well as create the required tables, triggers, and sample data.
    ```sql
-   CREATE EXTENSION IF NOT EXISTS pgcrypto;
-   ```
-3. Run the provided SQL script to create the required tables, triggers, and sample data.
-   ```sql
-   -- Execute the SQL script provided in `database.sql`
+   -- Execute the SQL script provided in `setup_db.sql` within 'db/' directory
    ```
 
 ## File Structure
@@ -87,13 +83,13 @@ project-root
 ## Usage
 
 1. **Run the Backend**:
-   Start the backend server to handle API requests for login and registration.
+   Start the backend server from within the 'nodejs' directory to handle API requests for login and registration.
 
 2. **Run the Frontend**:
-   Launch the Flutter application on a connected device or emulator.
+   Launch the Flutter application from within the root directory on a connected device or emulator.
 
 3. **Login/Register**:
-   Use the app to register a new account or log in with existing credentials. Test accounts included in the database:
+   Use the app to register a new account or log in with existing credentials. Test accounts included in the database after running 'setup_db.sql':
 
    - Username: `admin`, Password: `admin`
    - Username: `john_doe`, Password: `password123`
