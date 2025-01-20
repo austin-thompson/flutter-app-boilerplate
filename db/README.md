@@ -35,21 +35,12 @@ If you prefer a quicker setup, you can run the provided `setup_db.sql` script. I
 
 If you prefer to configure your database manually, follow the steps below.
 
-#### 1. **Enable `pgcrypto` Extension**
-
-The `pgcrypto` extension is required for password hashing functions like bcrypt. To enable it, run the following command:
-
-```sql
--- Enable the pgcrypto extension for cryptographic functions
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-```
-
-#### 2. **Create Tables**
+#### 1. **Create Tables**
 
 You can manually create the `Users` and `UserInformation` tables by running the following commands:
 
 ```sql
--- Drop and recreate the Users table with enhanced security
+-- Drop and recreate the Users table
 DROP TABLE IF EXISTS Users CASCADE;
 
 CREATE TABLE Users (
@@ -69,75 +60,3 @@ CREATE TABLE UserInformation (
     FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
 );
 ```
-
-#### 3. **Create Functions and Triggers**
-
-The following SQL functions and triggers will automatically hash passwords before insertion and add default user information for new users.
-
-```sql
--- Function to hash passwords before inserting into the Users table
-CREATE OR REPLACE FUNCTION hash_password()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.Password = crypt(NEW.Password, gen_salt('bf')); -- Use bcrypt for password hashing
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to hash passwords before inserting into the Users table
-CREATE TRIGGER before_user_insert
-BEFORE INSERT ON Users
-FOR EACH ROW
-EXECUTE FUNCTION hash_password();
-
--- Function to insert default UserInformation after a new user is added
-CREATE OR REPLACE FUNCTION add_default_user_information()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Insert default values into UserInformation
-    INSERT INTO UserInformation (UserId, FirstName, LastName, Location)
-    VALUES (NEW.UserId, 'DefaultFirstName', 'DefaultLastName', 'DefaultLocation');
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Trigger to add default UserInformation after inserting into the Users table
-CREATE TRIGGER after_user_insert
-AFTER INSERT ON Users
-FOR EACH ROW
-EXECUTE FUNCTION add_default_user_information();
-```
-
-#### 4. **Insert Sample Data**
-
-To add sample users with hashed passwords, run the following insert statement. The triggers will automatically hash the passwords and insert default user information.
-
-```sql
--- Insert sample data into Users (passwords will be hashed, and default UserInformation will be added)
-INSERT INTO Users (Username, Password) VALUES
-('admin', 'admin'),
-('john_doe', 'password123'),
-('jane_doe', 'qwerty456');
-```
-
-#### 5. **Verify Data**
-
-To check the contents of the `Users` and `UserInformation` tables after running the above commands, use the following queries:
-
-```sql
--- Verify the data in the Users table
-SELECT * FROM Users;
-
--- Verify the data in the UserInformation table
-SELECT * FROM UserInformation;
-```
-
-## Notes:
-
-- This setup requires the **latest version of PostgreSQL**. Make sure you have the correct version installed. However, future versions of PostgreSQL should still work with this script.
-- The `pgcrypto` extension is necessary for bcrypt password hashing functionality.
-- Default user information will be automatically populated with placeholder values (`DefaultFirstName`, `DefaultLastName`, `DefaultLocation`) when new users are created.
-
----
-
-Let me know if you need any further assistance!
