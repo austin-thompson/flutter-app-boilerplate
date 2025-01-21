@@ -34,7 +34,7 @@ This project demonstrates a simple Flutter application with user authentication 
 
 ### Frontend Setup
 
-1. Navigate to the project folder containing the Flutter code.
+1. Navigate to the root project directory containing the Flutter code.
 2. Install dependencies:
    ```bash
    flutter pub get
@@ -46,14 +46,14 @@ This project demonstrates a simple Flutter application with user authentication 
 
 ### Backend Setup
 
-1. Navigate to the backend folder.
+1. Navigate to the 'nodejs' directory.
 2. Install dependencies:
    ```bash
    npm install
    ```
 3. Start the server:
    ```bash
-   node server.js
+   node postgresServer.js
    ```
    The backend will run on `http://localhost:3000` by default.
 
