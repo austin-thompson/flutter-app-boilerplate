@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // AppBar with the title for the HomeScreen.
       appBar: AppBar(
-        title: Text('Navigation Bar Example'),
+        title: Text('Flutter App Boilerplate'),
       ),
 
       // Body displays the content of the selected tab.

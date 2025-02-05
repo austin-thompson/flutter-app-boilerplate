@@ -1,7 +1,8 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'register_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Username and password cannot be empty.'),
           backgroundColor: Colors.red,
         ),
@@ -40,14 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
       final responseData = json.decode(response.body);
 
       if (response.statusCode == 200 && responseData['success']) {
-        // Navigate to HomeScreen if login is successful
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(username: username)),
         );
       } else {
-        // Show an error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(responseData['message'] ?? 'Invalid credentials'),
@@ -57,56 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error connecting to server.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  Future<void> _handleRegister() async {
-    String username = usernameController.text.trim();
-    String password = passwordController.text.trim();
-
-    if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Username and password cannot be empty.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    final url = Uri.parse('http://localhost:3000/register');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'username': username, 'password': password}),
-      );
-
-      final responseData = json.decode(response.body);
-
-      if (response.statusCode == 201 && responseData['success']) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Registration successful! Please log in.'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(responseData['message'] ?? 'Registration failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Error connecting to server.'),
           backgroundColor: Colors.red,
         ),
@@ -126,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               key: const Key('usernameField'),
               controller: usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username:'),
               autofocus: true,
             ),
             TextField(
@@ -134,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: passwordController,
               obscureText: _isPasswordHidden,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Password:',
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isPasswordHidden ? Icons.visibility : Icons.visibility_off,
@@ -156,7 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 10),
             ElevatedButton(
               key: const Key('registerButton'),
-              onPressed: _handleRegister,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RegisterScreen()),
+                );
+              },
               child: const Text('Register'),
             ),
           ],

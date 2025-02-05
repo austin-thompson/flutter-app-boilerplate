@@ -27,7 +27,7 @@ This project demonstrates a simple Flutter application with user authentication 
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install)
 - [Dart SDK](https://dart.dev/get-dart)
-- [Node.js and npm](https://nodejs.org/en/download)
+- [Node.js and npm](https://js.org/en/download)
 - [PostgreSQL](https://www.postgresql.org/download)
 
 ## Setup Instructions
@@ -46,7 +46,7 @@ This project demonstrates a simple Flutter application with user authentication 
 
 ### Backend Setup
 
-1. Navigate to the 'nodejs' directory.
+1. Navigate to the 'js' directory.
 2. Install dependencies:
    ```bash
    npm install
@@ -76,7 +76,7 @@ project-root
 |       |-- login_screen.dart     # Login and registration screen
 |       |-- home_screen.dart      # Home screen with bottom navigation
 |
-|-- nodejs
+|-- js
 |       |-- postgresServer.js     # Express server for user authentication
 |-- db
 |       |-- setup_db.sql          # PostgreSQL schema and setup script
@@ -85,7 +85,7 @@ project-root
 ## Usage
 
 1. **Run the Backend**:
-   Start the backend server from within the 'nodejs' directory to handle API requests for login and registration.
+   Start the backend server from within the 'js' directory to handle API requests for login and registration.
 
 2. **Run the Frontend**:
    Launch the Flutter application from within the root directory on a connected device or emulator.
